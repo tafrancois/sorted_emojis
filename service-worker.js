@@ -1,7 +1,7 @@
 // Sorted Emojis - Service Worker
 // Caches the app shell for offline use
 
-const CACHE_NAME = 'sorted-emojis-v1';
+const CACHE_NAME = 'sorted-emojis-v2';
 const FILES_TO_CACHE = [
   './',
   './sorted_emojis.html',

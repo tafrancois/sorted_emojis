@@ -188,6 +188,29 @@
             box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
         }
 
+        .prompt-area {
+            width: 100%;
+            min-height: 60px;
+            padding: 0.8rem;
+            border: 2px solid #d8c5ff;
+            border-radius: 0.5rem;
+            background: white;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: #1f2937;
+            outline: none;
+            resize: none;
+            overflow: hidden;
+            box-sizing: border-box;
+            line-height: 1.5;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .prompt-area:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+        }
+
         /* Legacy class kept for any references */
         .emoji-item {
             display: flex;
@@ -245,7 +268,15 @@
 <body>
     <div class="container">
         <h1>✨ Emoji Sorter</h1>
-        <p class="subtitle">Generate 15 emojis + 5 from Simon's Channel, annotate each one and capture bigger observations in Notes & Quotes</p>
+        <p class="subtitle">Set a prompt, pull 15 emojis + 5 from Simon's Channel, annotate each one and capture bigger observations in Notes & Quotes</p>
+
+        <!-- Prompt -->
+        <div class="section prompt-section">
+            <div class="section-header">
+                <h2 class="section-title">🎯 Prompt</h2>
+            </div>
+            <textarea id="prompt-area" class="prompt-area" oninput="autoGrow(this)"></textarea>
+        </div>
 
         <button class="generate-btn" onclick="generate()">🎲 Generate Emojis</button>
 
@@ -906,9 +937,17 @@
             selectedEmojis = getRandomItems(getAllKeys(), 15);
             simonEmojis = getRandomItems(SIMON_CHANNEL_KEYS, 5);
             displayEmojis();
-            // Clear Notes & Quotes on regenerate (fresh slate)
+            // Clear prompt and Notes & Quotes on regenerate (fresh slate)
+            const promptEl = document.getElementById('prompt-area');
+            if (promptEl) {
+                promptEl.value = '';
+                autoGrow(promptEl);
+            }
             const notesEl = document.getElementById('notes-quotes');
-            if (notesEl) notesEl.value = '';
+            if (notesEl) {
+                notesEl.value = '';
+                autoGrow(notesEl);
+            }
             document.getElementById('results').classList.remove('hidden');
         }
 
@@ -984,6 +1023,11 @@
             return el ? el.value.trim() : '';
         }
 
+        function getPromptText() {
+            const el = document.getElementById('prompt-area');
+            return el ? el.value.trim() : '';
+        }
+
         function copyText(text) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
@@ -1024,7 +1068,12 @@
         }
 
         function copyAll(btn) {
-            let out = '--- Emojis ---\n' + getListText() + '\n\n';
+            const prompt = getPromptText();
+            let out = '';
+            if (prompt) {
+                out += '--- Prompt ---\n' + prompt + '\n\n';
+            }
+            out += '--- Emojis ---\n' + getListText() + '\n\n';
             out += "--- Simon's Channel ---\n" + getSimonListText() + '\n\n';
             const notes = getNotesText();
             out += '--- Notes & Quotes ---\n' + (notes || '(empty)') + '\n';
