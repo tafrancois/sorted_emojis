@@ -2,7 +2,7 @@
   "name": "Sorted Emojis",
   "short_name": "Sorted Emojis",
   "description": "Generate synchronicity signals through emoji pulls and annotate the patterns",
-  "start_url": "./sorted_emojis.html",
+  "start_url": "./sorted_emojis_app.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

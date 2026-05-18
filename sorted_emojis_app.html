@@ -937,12 +937,8 @@
             selectedEmojis = getRandomItems(getAllKeys(), 15);
             simonEmojis = getRandomItems(SIMON_CHANNEL_KEYS, 5);
             displayEmojis();
-            // Clear prompt and Notes & Quotes on regenerate (fresh slate)
-            const promptEl = document.getElementById('prompt-area');
-            if (promptEl) {
-                promptEl.value = '';
-                autoGrow(promptEl);
-            }
+            // Clear Notes & Quotes on regenerate (fresh slate per pull)
+            // Keep the prompt - user manages it manually so they can reference it while annotating
             const notesEl = document.getElementById('notes-quotes');
             if (notesEl) {
                 notesEl.value = '';

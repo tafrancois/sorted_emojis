@@ -1,10 +1,10 @@
 // Sorted Emojis - Service Worker
 // Caches the app shell for offline use
 
-const CACHE_NAME = 'sorted-emojis-v2';
+const CACHE_NAME = 'sorted-emojis-v4';
 const FILES_TO_CACHE = [
   './',
-  './sorted_emojis.html',
+  './sorted_emojis_app.html',
   './manifest.json',
   './icon-512.png'
 ];
@@ -53,7 +53,7 @@ self.addEventListener('fetch', (event) => {
           return response;
         }).catch(() => {
           // Network failed and not in cache - return cached app shell as fallback
-          return caches.match('./sorted_emojis.html');
+          return caches.match('./sorted_emojis_app.html');
         });
       })
   );
